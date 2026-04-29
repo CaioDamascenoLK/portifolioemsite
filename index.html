@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caio Damasceno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0b09;--bg2:#131210;--bg3:#1a1915;
+  --lime:#c6f135;--lime-dim:rgba(198,241,53,0.08);
+  --white:#ede8df;--muted:#6b6558;--muted2:#4a463d;
+  --border:rgba(237,232,223,0.08);--border2:rgba(237,232,223,0.04);
+  --display:'Chakra Petch',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--mono);font-size:14px;line-height:1.7;overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:10px;height:10px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--lime);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.25s,height 0.25s,opacity 0.2s;opacity:0.5}
+::selection{background:var(--lime);color:#000}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 3rem;mix-blend-mode:difference}
+.nav-mark{font-family:var(--display);font-weight:700;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--white)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--white)}
+
+#hero{min-height:100vh;display:grid;grid-template-rows:1fr auto;padding:0 3rem;padding-top:6rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero-main{display:grid;grid-template-columns:1fr 1fr;align-items:end;padding-bottom:4rem;gap:2rem}
+.hero-num{font-family:var(--display);font-size:clamp(6rem,18vw,16rem);font-weight:700;line-height:0.85;letter-spacing:-0.04em;color:var(--bg3);position:absolute;left:-0.05em;top:4rem;user-select:none;pointer-events:none;-webkit-text-stroke:1px var(--muted2)}
+.hero-name{font-family:var(--display);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;letter-spacing:-0.02em;line-height:0.95;position:relative;z-index:1}
+.hero-name em{font-style:normal;color:var(--lime)}
+.hero-right{display:flex;flex-direction:column;justify-content:flex-end;gap:2rem;padding-bottom:0.25rem}
+.hero-desc{font-size:0.82rem;color:var(--muted);line-height:1.85;border-left:2px solid var(--lime);padding-left:1.25rem;max-width:340px}
+.hero-status{display:flex;align-items:center;gap:0.6rem;font-size:0.68rem;color:var(--lime);letter-spacing:0.1em;text-transform:uppercase}
+.status-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+.hero-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
+.hero-bar-item{padding:1.25rem 0 1.25rem 1rem;border-right:1px solid var(--border)}
+.hero-bar-item:last-child{border-right:none}
+.hbi-num{font-family:var(--display);font-size:1.6rem;font-weight:700;color:var(--white);line-height:1;margin-bottom:0.2rem}
+.hbi-label{font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+
+.s-label{display:flex;align-items:center;gap:1rem;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:3.5rem}
+.s-label::after{content:'';flex:1;height:1px;background:var(--border)}
+section{padding:6rem 3rem}
+
+#about{display:grid;grid-template-columns:240px 1fr;gap:5rem;align-items:start;border-bottom:1px solid var(--border)}
+.about-sidebar{position:sticky;top:7rem}
+.about-big{font-family:var(--display);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;letter-spacing:-0.02em;line-height:1}
+.about-big em{font-style:normal;color:var(--lime)}
+.about-body{padding-top:1rem}
+.about-body p{color:var(--muted);font-size:0.85rem;margin-bottom:1rem;max-width:560px}
+.about-body p strong{color:var(--white);font-weight:500}
+
+#skills{border-bottom:1px solid var(--border)}
+.skills-table{width:100%;border-collapse:collapse}
+.skills-table tr{border-bottom:1px solid var(--border2)}
+.skills-table tr:first-child{border-top:1px solid var(--border)}
+.skills-table td{padding:1.1rem 0;vertical-align:top}
+.st-cat{width:200px;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding-right:2rem;white-space:nowrap;padding-top:1.25rem}
+.st-items{display:flex;flex-wrap:wrap;gap:0.4rem}
+.sk{font-size:0.75rem;padding:0.35rem 0.8rem;border:1px solid var(--border);color:var(--muted);transition:border-color 0.2s,color 0.2s,background 0.2s;cursor:default}
+.sk:hover{border-color:var(--lime);color:var(--lime);background:var(--lime-dim)}
+.sk.main{border-color:var(--muted2);color:var(--white)}
+.sk.main:hover{border-color:var(--lime);color:var(--lime);background:var(--lime-dim)}
+
+#timeline{border-bottom:1px solid var(--border)}
+.tl-item{display:grid;grid-template-columns:120px 1fr;gap:2rem;padding:2rem 0;border-bottom:1px solid var(--border2);transition:background 0.2s,padding 0.2s}
+.tl-item:first-child{border-top:1px solid var(--border2)}
+.tl-year{font-family:var(--display);font-size:0.75rem;font-weight:600;color:var(--lime);letter-spacing:0.05em;padding-top:0.15rem;white-space:nowrap}
+.tl-title{font-family:var(--display);font-size:1.05rem;font-weight:700;letter-spacing:-0.01em;margin-bottom:0.15rem}
+.tl-where{font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;letter-spacing:0.04em}
+.tl-desc{font-size:0.8rem;color:var(--muted);line-height:1.75;max-width:600px;margin-bottom:0.75rem}
+.tl-tags{display:flex;flex-wrap:wrap;gap:0.35rem}
+.tl-tag{font-size:0.65rem;padding:0.18rem 0.5rem;background:var(--bg3);color:var(--muted);letter-spacing:0.06em}
+
+#contact{position:relative;overflow:hidden;text-align:center;min-height:70vh;display:flex;align-items:center;justify-content:center}
+.contact-kicker{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem}
+.contact-headline{font-family:var(--display);font-size:clamp(3rem,10vw,9rem);font-weight:700;letter-spacing:-0.04em;line-height:0.88;margin-bottom:2.5rem}
+.contact-headline em{font-style:normal;color:var(--lime)}
+.contact-actions{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 2rem;text-decoration:none;display:inline-block;transition:all 0.2s;cursor:none}
+.btn-fill{background:var(--lime);color:#000}
+.btn-fill:hover{background:var(--white)}
+.btn-outline{border:1px solid var(--border);color:var(--muted)}
+.btn-outline:hover{border-color:var(--white);color:var(--white)}
+footer{border-top:1px solid var(--border);padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;font-size:0.68rem;color:var(--muted)}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;mix-blend-mode:normal;background:rgba(12,11,9,0.9)}
+  .nav-links{display:none}
+  #hero{padding:0 1.5rem;padding-top:5rem}
+  .hero-main{grid-template-columns:1fr;gap:3rem}
+  .hero-num{font-size:40vw}
+  .hero-bar{grid-template-columns:1fr 1fr}
+  .hero-bar-item:nth-child(2){border-right:none}
+  .hero-bar-item:nth-child(3){border-top:1px solid var(--border)}
+  .hero-bar-item:nth-child(4){border-top:1px solid var(--border);border-right:none}
+  section{padding:4rem 1.5rem}
+  #about{grid-template-columns:1fr;gap:2rem}
+  .about-sidebar{position:static}
+  .tl-item{grid-template-columns:80px 1fr;gap:1rem}
+  footer{padding:1.5rem;flex-direction:column;gap:0.5rem;text-align:center}
+  .cursor,.cursor-ring{display:none}
+  body{cursor:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav>
+  <span class="nav-mark">Caio Damasceno</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="hero">
+  <div class="hero-num" aria-hidden="true">CD</div>
+  <div class="hero-main">
+    <div class="hero-left">
+      <h1 class="hero-name">Full-Stack<br>Dev &amp;<br><em>Designer.</em></h1>
+    </div>
+    <div class="hero-right">
+      <p class="hero-desc">I build things that work and look good doing it — from backend logic all the way to visual identity. 17 years old. Always learning. Always shipping.</p>
+      <div class="hero-status">
+        <div class="status-dot"></div>
+        Open to internship &amp; junior roles
+      </div>
+    </div>
+  </div>
+  <div class="hero-bar">
+    <div class="hero-bar-item">
+      <div class="hbi-num">5+</div>
+      <div class="hbi-label">Languages</div>
+    </div>
+    <div class="hero-bar-item">
+      <div class="hbi-num">5+</div>
+      <div class="hbi-label">Design tools</div>
+    </div>
+    <div class="hero-bar-item">
+      <div class="hbi-num">4</div>
+      <div class="hbi-label">Certifications</div>
+    </div>
+    <div class="hero-bar-item">
+      <div class="hbi-num">C1</div>
+      <div class="hbi-label">English</div>
+    </div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="about-sidebar reveal">
+    <div class="s-label">About</div>
+    <div class="about-big">Who<br>I <em>am.</em></div>
+  </div>
+  <div class="about-body reveal">
+    <p>I'm a 17-year-old IT student at UNASP, going through an integrated technical + high school program — so yes, I'm doing both at the same time.</p>
+    <p>My stack covers <strong>full-stack development</strong> (JavaScript, Node.js, HTML, CSS, C) and a solid <strong>creative toolkit</strong> (the full Adobe Suite, Blender, After Effects). I'm also Cisco-certified in Networking Basics, so I actually understand what's running under the hood of the apps I build.</p>
+    <p>One thing I'm proud of: I helped <strong>co-found an E-Sports League at UNASP</strong> alongside two professors — handling planning, coordination, and management from the ground up. First real taste of building something with real stakes.</p>
+    <p>Fluent in English. Looking for an internship or junior role where I can put this to work.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="s-label reveal">Skills</div>
+  <table class="skills-table reveal">
+    <tr>
+      <td class="st-cat">Development</td>
+      <td>
+        <div class="st-items">
+          <span class="sk main">JavaScript</span><span class="sk main">Node.js</span><span class="sk main">HTML</span><span class="sk main">CSS</span><span class="sk main">C</span><span class="sk">Full-Stack</span><span class="sk">Front-End</span><span class="sk">Back-End</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="st-cat">Design</td>
+      <td>
+        <div class="st-items">
+          <span class="sk main">Adobe Photoshop</span><span class="sk main">Adobe Illustrator</span><span class="sk main">After Effects</span><span class="sk main">Blender</span><span class="sk">Adobe Premiere</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="st-cat">Networking</td>
+      <td>
+        <div class="st-items">
+          <span class="sk main">Networking Basics</span><span class="sk">IPv4</span><span class="sk">IT Infrastructure</span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="st-cat">Other</td>
+      <td>
+        <div class="st-items">
+          <span class="sk main">English — C1</span><span class="sk">Project Planning</span><span class="sk">Project Management</span><span class="sk">Robotics</span><span class="sk">PC Assembly</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section id="timeline">
+  <div class="s-label reveal">Timeline</div>
+
+  <div class="tl-item reveal">
+    <div class="tl-year">Mar 2026</div>
+    <div class="tl-content">
+      <div class="tl-title">Networking Basics — Cisco Certified</div>
+      <div class="tl-where">Cisco Networking Academy</div>
+      <div class="tl-desc">Completed the Networking Basics certification, covering IPv4, network infrastructure, and how modern computer networks operate under the hood.</div>
+      <div class="tl-tags"><span class="tl-tag">Networking</span><span class="tl-tag">IPv4</span><span class="tl-tag">Certification</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item reveal">
+    <div class="tl-year">2024 — now</div>
+    <div class="tl-content">
+      <div class="tl-title">IT Technical Course</div>
+      <div class="tl-where">UNASP — Centro Universitário Adventista de São Paulo</div>
+      <div class="tl-desc">Integrated high school and IT program. Studying full-stack development, networking, and IT fundamentals. Co-founded an E-Sports League alongside two professors — responsible for planning, coordination, and management.</div>
+      <div class="tl-tags"><span class="tl-tag">JavaScript</span><span class="tl-tag">Node.js</span><span class="tl-tag">HTML/CSS</span><span class="tl-tag">C</span><span class="tl-tag">Project Management</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item reveal">
+    <div class="tl-year">2021 — 2025</div>
+    <div class="tl-content">
+      <div class="tl-title">English — Proficiency (C1)</div>
+      <div class="tl-where">Wizard by Pearson</div>
+      <div class="tl-desc">Completed both the Teens and Proficiency programs, reaching full C1-level fluency in reading, writing, speaking, and listening.</div>
+      <div class="tl-tags"><span class="tl-tag">English</span><span class="tl-tag">C1</span><span class="tl-tag">Certified</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item reveal">
+    <div class="tl-year">2022 — 2023</div>
+    <div class="tl-content">
+      <div class="tl-title">Design & Visual Communication</div>
+      <div class="tl-where">Escola SAGA</div>
+      <div class="tl-desc">Full design program covering the Adobe Suite and 3D production. Worked with Photoshop, Illustrator, Premiere Pro, After Effects, and Blender — building strong visual and motion foundations.</div>
+      <div class="tl-tags"><span class="tl-tag">Photoshop</span><span class="tl-tag">Illustrator</span><span class="tl-tag">After Effects</span><span class="tl-tag">Blender</span><span class="tl-tag">Premiere</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item reveal">
+    <div class="tl-year">2020</div>
+    <div class="tl-content">
+      <div class="tl-title">Robotics, Windows & PC Assembly</div>
+      <div class="tl-where">Compacta Cursos</div>
+      <div class="tl-desc">Technical course covering robotics fundamentals, Windows OS, and hands-on PC assembly and maintenance. Where the hardware side of things started making sense.</div>
+      <div class="tl-tags"><span class="tl-tag">Robotics</span><span class="tl-tag">Windows</span><span class="tl-tag">PC Assembly</span><span class="tl-tag">Hardware</span></div>
+    </div>
+  </div>
+
+</section>
+
+<section id="contact">
+  <div class="contact-inner reveal">
+    <p class="contact-kicker">Open to opportunities</p>
+    <h2 class="contact-headline">Let's<br>build<br>something <em>real.</em></h2>
+    <div class="contact-actions">
+      <a href="https://www.linkedin.com/in/caio-damasceno-756335336/" class="btn btn-fill" target="_blank">LinkedIn</a>
+      <a href="mailto:caiodamascenocar@email.com" class="btn btn-outline">Send email</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Caio Damasceno — 2026</span>
+  <span>São Paulo, BR</span>
+</footer>
+
+<script>
+const cur = document.getElementById('cur')
+const ring = document.getElementById('ring')
+let mx = 0, my = 0, rx = 0, ry = 0
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX
+  my = e.clientY
+  cur.style.left = mx + 'px'
+  cur.style.top = my + 'px'
+})
+
+const lerp = (a, b, t) => a + (b - a) * t
+const animRing = () => {
+  rx = lerp(rx, mx, 0.12)
+  ry = lerp(ry, my, 0.12)
+  ring.style.left = rx + 'px'
+  ring.style.top = ry + 'px'
+  requestAnimationFrame(animRing)
+}
+animRing()
+
+document.querySelectorAll('a,.btn,.sk,.tl-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cur.style.width = '18px'
+    cur.style.height = '18px'
+    ring.style.width = '52px'
+    ring.style.height = '52px'
+    ring.style.opacity = '0.8'
+  })
+  el.addEventListener('mouseleave', () => {
+    cur.style.width = '10px'
+    cur.style.height = '10px'
+    ring.style.width = '36px'
+    ring.style.height = '36px'
+    ring.style.opacity = '0.5'
+  })
+})
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 60)
+      obs.unobserve(e.target)
+    }
+  })
+}, {threshold: 0.08})
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
+</script>
+</body>
+</html>
